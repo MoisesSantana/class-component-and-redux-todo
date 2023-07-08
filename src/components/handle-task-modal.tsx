@@ -12,8 +12,9 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ActionTypes, GlobalStateType, Task } from '../types';
+import { GlobalStateType, Status, Task } from '../types';
 import { formatsDate } from '../helper/formatsDate';
+import { updateTask } from '../redux/tasks.actions';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
@@ -40,13 +41,15 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { tasks, dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
 
-    dispatch({ type: ActionTypes.UPDATE_TASK, payload: [...tasks, {
+    const expectedTaskList = [...tasks, {
       taskName,
       taskDescription,
-      status: 'unfinished',
+      status: Status.Unfinished,
       createdAt: formatsDate(new Date()),
       id: tasks.length + 1,
-    }] });
+    }]
+
+    dispatch(updateTask(expectedTaskList));
 
     this.setState(INITIAL_STATE);
   }
@@ -56,7 +59,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { taskName, taskDescription } = this.state;
 
     const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
-    dispatch({ type: ActionTypes.UPDATE_TASK, payload: updatedTasks });
+    dispatch(updateTask(updatedTasks));
     
     if (handleShowBtnsControl) handleShowBtnsControl();
     

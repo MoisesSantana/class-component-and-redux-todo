@@ -2,13 +2,18 @@ export type Task = {
   id: number;
   taskName: string;
   taskDescription: string;
-  status: 'unfinished' | 'completed';
+  status: Status;
   createdAt: string;
 };
 
 export type GlobalStateType = {
   tasks: Task[],
   orderBy: OrderBy,
+}
+
+export enum Status {
+  Unfinished = 'unfinished',
+  Completed = 'completed',
 }
 
 export enum ActionTypes {
