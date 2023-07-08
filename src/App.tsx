@@ -8,7 +8,7 @@ const RootContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   background-color: #FAFAFA;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   align-items: center;
 `
@@ -18,7 +18,7 @@ class App extends React.Component {
     return (
       <RootContainer>
         <Header />
-        <Paper  sx={{ width: '80%', mt: 12, overflowY: 'auto', height: 'calc(100vh - 200px)' }}>
+        <Paper  sx={{ width: '80%', mt: 12, overflowY: 'auto', overflowX: 'hidden', height: 'calc(100vh - 200px)' }}>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             <TaskCard />
             <TaskCard />
