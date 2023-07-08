@@ -1,24 +1,21 @@
 import { AnyAction } from 'redux';
-import { UPDATE_TASK } from './tasks.actions';
-import { Task } from '../types';
-
-type TasksReducerState = {
-  tasks: Task[],
-}
+import { ActionTypes, GlobalStateType, OrderBy } from '../types';
 
 const INITIAL_STATE = {
   tasks: [],
+  orderBy: OrderBy.Current,
 };
 
 const tasksReducer = (
-  state: TasksReducerState = INITIAL_STATE, action: AnyAction,
+  state: GlobalStateType = INITIAL_STATE, action: AnyAction,
 ) => {
   switch (action.type) {
-    case UPDATE_TASK:
+    case ActionTypes.UPDATE_TASK:
       return {
         ...state,
         tasks: action.payload,
       };
+    case ActionTypes.ORDER_BY:
     default:
       return state;
   }

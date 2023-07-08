@@ -3,9 +3,8 @@ import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/m
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
-import { Task } from '../types';
+import { ActionTypes, GlobalStateType, Task } from '../types';
 import { Dispatch } from 'redux';
-import { UPDATE_TASK } from '../redux/tasks.actions';
 import { connect } from 'react-redux';
 
 
@@ -47,14 +46,14 @@ class TaskCard extends React.Component<TaskCardProps> {
   handleCompleteTask = () => {
     const { task, tasks, dispatch } = this.props;
     const updatedTasks = tasks.map((taskItem: Task) => taskItem.id === task.id ? { ...taskItem, status: 'completed' } : taskItem);
-    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
+    dispatch({ type: ActionTypes.UPDATE_TASK, payload: updatedTasks });
     this.setState({ showBtn: false });
   }
 
   handleDeleteTask = () => {
     const { task, tasks, dispatch } = this.props;
     const updatedTasks = tasks.filter((taskItem: Task) => taskItem.id !== task.id);
-    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
+    dispatch({ type: ActionTypes.UPDATE_TASK, payload: updatedTasks });
     this.setState({ showBtn: false });
   }
 
@@ -102,7 +101,7 @@ class TaskCard extends React.Component<TaskCardProps> {
   }
 }
 
-const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+const mapStateToProps = ({ tasks }: GlobalStateType) => ({
   tasks,
 });
 

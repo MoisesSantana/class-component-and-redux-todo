@@ -3,7 +3,7 @@ import { Box, List, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import { Header } from './components/header';
 import TaskCard from './components/task-card';
-import { Task } from './types';
+import { GlobalStateType, Task } from './types';
 import { connect } from 'react-redux';
 
 const RootContainer = styled(Box)`
@@ -37,7 +37,7 @@ class App extends React.Component<AppProps> {
   }
 }
 
-const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+const mapStateToProps = ({ tasks }: GlobalStateType) => ({
   tasks,
 });
 

@@ -1,8 +1,11 @@
-import { Task } from "../types";
-
-export const UPDATE_TASK = 'UPDATE_TASK';
+import { ActionTypes, Task } from "../types";
 
 export const updateTask = (tasks: Task[]) => ({
-  type: UPDATE_TASK,
+  type: ActionTypes.UPDATE_TASK,
   payload: tasks,
+});
+
+export const orderBy = (orderBy: string) => ({
+  type: ActionTypes.ORDER_BY,
+  payload: orderBy,
 });

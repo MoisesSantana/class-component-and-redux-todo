@@ -1,17 +1,18 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Fab } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Fab,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Task } from '../types';
-import { UPDATE_TASK } from '../redux/tasks.actions';
+import { ActionTypes, GlobalStateType, Task } from '../types';
 import { formatsDate } from '../helper/formatsDate';
 
 interface HandleTaskModalProps {
@@ -39,7 +40,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { tasks, dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
 
-    dispatch({ type: UPDATE_TASK, payload: [...tasks, {
+    dispatch({ type: ActionTypes.UPDATE_TASK, payload: [...tasks, {
       taskName,
       taskDescription,
       status: 'unfinished',
@@ -55,7 +56,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { taskName, taskDescription } = this.state;
 
     const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
-    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
+    dispatch({ type: ActionTypes.UPDATE_TASK, payload: updatedTasks });
     
     if (handleShowBtnsControl) handleShowBtnsControl();
     
@@ -119,7 +120,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   }
 }
 
-const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+const mapStateToProps = ({ tasks }: GlobalStateType) => ({
   tasks,
 });
 
