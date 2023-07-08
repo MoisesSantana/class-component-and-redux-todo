@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
 import { Task } from '../types';
 import { Dispatch } from 'redux';
-import { DELETE_TASK, UPDATE_TASK } from '../redux/tasks.actions';
+import { UPDATE_TASK } from '../redux/tasks.actions';
 import { connect } from 'react-redux';
 
 
@@ -54,7 +54,7 @@ class TaskCard extends React.Component<TaskCardProps> {
   handleDeleteTask = () => {
     const { task, tasks, dispatch } = this.props;
     const updatedTasks = tasks.filter((taskItem: Task) => taskItem.id !== task.id);
-    dispatch({ type: DELETE_TASK, payload: updatedTasks });
+    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
     this.setState({ showBtn: false });
   }
 

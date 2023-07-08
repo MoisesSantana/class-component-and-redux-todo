@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Task } from '../types';
-import { SAVE_TASK } from '../redux/tasks.actions';
+import { UPDATE_TASK } from '../redux/tasks.actions';
 import { formatsDate } from '../helper/formatsDate';
 
 interface HandleTaskModalProps {
@@ -39,7 +39,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { tasks, dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
 
-    dispatch({ type: SAVE_TASK, payload: [...tasks, {
+    dispatch({ type: UPDATE_TASK, payload: [...tasks, {
       taskName,
       taskDescription,
       status: 'unfinished',
@@ -55,7 +55,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { taskName, taskDescription } = this.state;
 
     const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
-    dispatch({ type: SAVE_TASK, payload: updatedTasks });
+    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
     
     if (handleShowBtnsControl) handleShowBtnsControl();
     
