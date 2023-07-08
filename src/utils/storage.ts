@@ -1,7 +1,8 @@
 import { Task } from '../types';
 
 export function getStorage(key: string): Task[] {
-  return JSON.parse(localStorage.getItem(key) || JSON.stringify([]));
+  const taskList = JSON.parse(localStorage.getItem(key) || JSON.stringify([]));
+  return taskList.map((task: Task) => ({ ...task, createdAt: new Date(task.createdAt) }));
 }
 
 export function setStorage(key: string, value: Task[]): void {

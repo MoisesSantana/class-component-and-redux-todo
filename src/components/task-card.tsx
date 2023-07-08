@@ -1,11 +1,12 @@
 import React from 'react';
-import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/material';
+import { Divider, IconButton, ListItem, ListItemText, Tooltip, Typography, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
 import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
 import { connect } from 'react-redux';
 import { handleTask } from '../redux/tasks.actions';
+import { format, formatDistanceToNow } from 'date-fns';
 
 
 const CustomListItem = styled(ListItem)`
@@ -14,17 +15,11 @@ const CustomListItem = styled(ListItem)`
 
   &:hover {
     transform: scale(1.015);
-    cursor: pointer;
   }
 
   .btns-control {
     display: flex;
     gap: 8px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
   }
 `;
 
@@ -35,12 +30,18 @@ interface TaskCardProps {
 }
 
 class TaskCard extends React.Component<TaskCardProps> {
-  state = {
-    showBtn: false,
+  createdDateFormatted = () => {
+    const { task } = this.props;
+    console.log(task.createdAt, typeof task.createdAt);
+    return format(
+      task.createdAt,
+      'LLLL d \'in\' HH:mm\'h\'',
+    );
   };
 
-  handleShowBtn = () => {
-    this.setState((prevState: { showBtn: boolean }) => ({ showBtn: !prevState.showBtn }));
+  createdDateRelativeToNow = () => {
+    const { task } = this.props;
+    return formatDistanceToNow(task.createdAt);
   };
 
   handleCompleteTask = () => {
@@ -66,31 +67,14 @@ class TaskCard extends React.Component<TaskCardProps> {
   };
 
   render() {
-    const { showBtn } = this.state;
     const { task } = this.props;
-    const listContentBlur = showBtn ? 'blur(3px)' : 'blur(0px)';
     const statusTextColor = task.status === 'completed' ? 'green' : 'red';
 
     return (
       <>
         <CustomListItem>
-          {
-            showBtn && (
-              <div className="btns-control">
-                <Fab color="success" aria-label="conclude" onClick={this.handleCompleteTask}>
-                  <CheckIcon />
-                </Fab>
-                <HandleTaskModal handleShowBtnsControl={this.handleShowBtn} taskId={ task.id } />
-                <Fab color="error" aria-label="remove" onClick={this.handleDeleteTask}>
-                  <DeleteIcon />
-                </Fab>
-              </div>
-            )
-          }
           <ListItemText
-            role="complementary"
-            onClick={ this.handleShowBtn }
-            sx={{ width: '60%', filter: listContentBlur }}
+            sx={{ width: '60%' }}
             primary={ task.taskName }
             secondary={
               <Typography color="GrayText" variant="caption" sx={{ display: 'inline-block' }}>
@@ -98,12 +82,27 @@ class TaskCard extends React.Component<TaskCardProps> {
               </Typography>
             }
           />
-          <aside role="complementary" onClick={ this.handleShowBtn } style={{ filter: listContentBlur }}>
-            <p style={{ color: statusTextColor }}>Status: { task.status }</p>
-            <p>Created At: { task.createdAt }</p>
+          <aside style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <time title={ this.createdDateFormatted() } dateTime={ task.createdAt.toLocaleString() }>
+              <Typography color="GrayText" variant='caption'>{ this.createdDateRelativeToNow() }</Typography>
+            </time>
+            <span style={{ color: statusTextColor }}>Status: { task.status }</span>
+            <div className="btns-control">
+              <IconButton color="success" onClick={this.handleCompleteTask}>
+                <Tooltip title="Conclude Task">
+                  <CheckIcon />
+                </Tooltip>
+              </IconButton>
+              <HandleTaskModal taskId={ task.id } />
+              <IconButton color="error" onClick={this.handleDeleteTask}>
+                <Tooltip title="Remove Task">
+                  <DeleteIcon />
+                </Tooltip>
+              </IconButton>
+            </div>
           </aside>
         </CustomListItem>
-        <Divider variant="inset" component="li" />  
+        <Divider variant="inset" component="li" />
       </>
     );
   }

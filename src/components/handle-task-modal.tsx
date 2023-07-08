@@ -7,6 +7,8 @@ import {
   DialogContent,
   DialogTitle,
   Fab,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,7 +22,6 @@ interface HandleTaskModalProps {
   tasks: Task[];
   dispatch: Dispatch;
   taskId?: number;
-  handleShowBtnsControl?: () => void;
 }
 
 const INITIAL_STATE = {
@@ -44,7 +45,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
       taskName,
       taskDescription,
       status: Status.Unfinished,
-      createdAt: formatsDate(new Date()),
+      createdAt: new Date(),
       id: 0,
     };
 
@@ -54,7 +55,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   };
 
   handleEditTask = () => {
-    const { tasks, dispatch, taskId, handleShowBtnsControl } = this.props;
+    const { tasks, dispatch, taskId } = this.props;
     const { taskName, taskDescription } = this.state;
 
     const taskToEdit = tasks.find((task: Task) => task.id === taskId);
@@ -63,8 +64,6 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
       const updatedTask = { ...taskToEdit, taskName, taskDescription };
       dispatch(handleTask(updatedTask, HandleTaskType.Update));
     }
-    
-    if (handleShowBtnsControl) handleShowBtnsControl();
     
     this.setState(INITIAL_STATE);
   };
@@ -86,9 +85,11 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
                 New Todo
             </Fab>
           ) : (
-            <Fab color="warning" aria-label="edit" onClick={this.handleModal}>
-              <EditIcon />
-            </Fab>
+            <IconButton color="warning" onClick={this.handleModal}>
+              <Tooltip title="Edit Task">
+                <EditIcon />
+              </Tooltip>
+            </IconButton>
           )
         }
         

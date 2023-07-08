@@ -6,7 +6,7 @@ export type Task = {
   taskName: string;
   taskDescription: string;
   status: Status;
-  createdAt: string;
+  createdAt: Date;
 };
 
 export type GlobalStateType = {
