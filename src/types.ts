@@ -1,3 +1,6 @@
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+
 export type Task = {
   id: number;
   taskName: string;
@@ -11,7 +14,10 @@ export type GlobalStateType = {
   orderBy: OrderBy,
   filterBy: FilterBy,
   searchTerm: string,
+  isLoading: boolean,
 }
+
+export type Dispatch = ThunkDispatch<GlobalStateType, null, AnyAction>;
 
 export enum Status {
   Unfinished = 'unfinished',
@@ -23,6 +29,7 @@ export enum ActionTypes {
   ORDER_BY = 'ORDER_BY',
   FILTER_BY = 'FILTER_BY',
   SEARCH_TASK = 'SEARCH_TASK',
+  HANDLE_FETCH = 'HANDLE_FETCH',
 }
 
 export enum OrderBy {
@@ -34,4 +41,10 @@ export enum FilterBy {
   All = 'All',
   Unfinished = 'Unfinished',
   Completed = 'Completed',
+}
+
+export enum TaskUpdateType {
+  Create = 'Create',
+  Update = 'Update',
+  Delete = 'Delete',
 }

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   orderBy: OrderBy.Current,
   filterBy: FilterBy.All,
   searchTerm: '',
+  isLoading: false,
 };
 
 const tasksReducer = (
@@ -32,6 +33,11 @@ const tasksReducer = (
         ...state,
         searchTerm: action.payload,
       };
+    case ActionTypes.HANDLE_FETCH:
+      return {
+        ...state,
+        isLoading: !state.isLoading,
+      }
     default:
       return state;
   }

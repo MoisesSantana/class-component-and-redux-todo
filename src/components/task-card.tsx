@@ -3,10 +3,9 @@ import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/m
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
-import { GlobalStateType, Status, Task } from '../types';
-import { Dispatch } from 'redux';
+import { Dispatch, GlobalStateType, Status, Task, TaskUpdateType } from '../types';
 import { connect } from 'react-redux';
-import { updateTask } from '../redux/tasks.actions';
+import { handleTask } from '../redux/tasks.actions';
 
 
 const CustomListItem = styled(ListItem)`
@@ -46,15 +45,23 @@ class TaskCard extends React.Component<TaskCardProps> {
 
   handleCompleteTask = () => {
     const { task, tasks, dispatch } = this.props;
-    const updatedTasks = tasks.map((taskItem: Task) => taskItem.id === task.id ? { ...taskItem, status: Status.Completed } : taskItem);
-    dispatch(updateTask(updatedTasks));
+    const taskToEdit = tasks.find((taskItem: Task) => taskItem.id === task.id);
+
+    if (taskToEdit) {
+      const updatedTask = { ...taskToEdit, status: Status.Completed };
+      dispatch(handleTask(updatedTask, TaskUpdateType.Update));
+    }
+
     this.setState({ showBtn: false });
   }
 
   handleDeleteTask = () => {
     const { task, tasks, dispatch } = this.props;
-    const updatedTasks = tasks.filter((taskItem: Task) => taskItem.id !== task.id);
-    dispatch(updateTask(updatedTasks));
+    const taskToRemove = tasks.find((taskItem: Task) => taskItem.id === task.id);
+    
+    if (taskToRemove)
+      dispatch(handleTask(taskToRemove, TaskUpdateType.Delete));
+    
     this.setState({ showBtn: false });
   }
 

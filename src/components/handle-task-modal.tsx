@@ -11,10 +11,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { GlobalStateType, Status, Task } from '../types';
+import { Dispatch, GlobalStateType, Status, Task, TaskUpdateType } from '../types';
 import { formatsDate } from '../helper/formatsDate';
-import { updateTask } from '../redux/tasks.actions';
+import { handleTask } from '../redux/tasks.actions';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
@@ -38,18 +37,18 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   };
 
   handleSaveTask = () => {
-    const { tasks, dispatch } = this.props;
+    const { dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
 
-    const expectedTaskList = [...tasks, {
+    const newTask = {
       taskName,
       taskDescription,
       status: Status.Unfinished,
       createdAt: formatsDate(new Date()),
-      id: tasks.length + 1,
-    }]
+      id: 0,
+    };
 
-    dispatch(updateTask(expectedTaskList));
+    dispatch(handleTask(newTask, TaskUpdateType.Create));
 
     this.setState(INITIAL_STATE);
   }
@@ -58,8 +57,12 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { tasks, dispatch, taskId, handleShowBtnsControl } = this.props;
     const { taskName, taskDescription } = this.state;
 
-    const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
-    dispatch(updateTask(updatedTasks));
+    const taskToEdit = tasks.find((task: Task) => task.id === taskId);
+    
+    if (taskToEdit) {
+      const updatedTask = { ...taskToEdit, taskName, taskDescription };
+      dispatch(handleTask(updatedTask, TaskUpdateType.Update));
+    }
     
     if (handleShowBtnsControl) handleShowBtnsControl();
     
