@@ -14,33 +14,33 @@ const tasksReducer = (
   state: GlobalStateType = INITIAL_STATE, action: AnyAction,
 ) => {
   switch (action.type) {
-    case ActionTypes.UPDATE_TASK:
-      return {
-        ...state,
-        tasks: action.payload,
-      };
-    case ActionTypes.ORDER_BY:
-      return {
-        ...state,
-        orderBy: action.payload,
-      };
-    case ActionTypes.FILTER_BY:
-      return {
-        ...state,
-        filterBy: action.payload,
-      }
-    case ActionTypes.SEARCH_TASK:
-      return {
-        ...state,
-        searchTerm: action.payload,
-      };
-    case ActionTypes.HANDLE_FETCH:
-      return {
-        ...state,
-        isLoading: action.payload,
-      }
-    default:
-      return state;
+  case ActionTypes.UPDATE_TASK:
+    return {
+      ...state,
+      tasks: action.payload,
+    };
+  case ActionTypes.ORDER_BY:
+    return {
+      ...state,
+      orderBy: action.payload,
+    };
+  case ActionTypes.FILTER_BY:
+    return {
+      ...state,
+      filterBy: action.payload,
+    };
+  case ActionTypes.SEARCH_TASK:
+    return {
+      ...state,
+      searchTerm: action.payload,
+    };
+  case ActionTypes.HANDLE_FETCH:
+    return {
+      ...state,
+      isLoading: action.payload,
+    };
+  default:
+    return state;
   }
 };
 

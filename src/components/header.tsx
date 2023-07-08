@@ -48,7 +48,7 @@ class Header extends React.Component<HeaderProps> {
   handleOrderBy = ({ target }) => {
     const { dispatch } = this.props;
     dispatch(orderBy(target.value));
-  }
+  };
 
   handleFilterBy = ({ target }) => {
     const { dispatch } = this.props;
@@ -106,7 +106,7 @@ class Header extends React.Component<HeaderProps> {
           sx={{ width: 608 }}
         />
       </HeaderContainer>
-    )
+    );
   }
 }
 

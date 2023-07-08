@@ -26,22 +26,22 @@ const CustomListItem = styled(ListItem)`
     transform: translate(-50%, -50%);
     z-index: 1;
   }
-`
+`;
 
 interface TaskCardProps {
   task: Task;
   tasks: Task[];
   dispatch: Dispatch;
-};
+}
 
 class TaskCard extends React.Component<TaskCardProps> {
   state = {
     showBtn: false,
-  }
+  };
 
   handleShowBtn = () => {
-    this.setState((prevState: { showBtn: boolean }) => ({ showBtn: !prevState.showBtn }))
-  }
+    this.setState((prevState: { showBtn: boolean }) => ({ showBtn: !prevState.showBtn }));
+  };
 
   handleCompleteTask = () => {
     const { task, tasks, dispatch } = this.props;
@@ -53,7 +53,7 @@ class TaskCard extends React.Component<TaskCardProps> {
     }
 
     this.setState({ showBtn: false });
-  }
+  };
 
   handleDeleteTask = () => {
     const { task, tasks, dispatch } = this.props;
@@ -63,7 +63,7 @@ class TaskCard extends React.Component<TaskCardProps> {
       dispatch(handleTask(taskToRemove, HandleTaskType.Delete));
     
     this.setState({ showBtn: false });
-  }
+  };
 
   render() {
     const { showBtn } = this.state;

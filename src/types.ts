@@ -1,5 +1,5 @@
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 export type Task = {
   id: number;

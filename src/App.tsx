@@ -15,7 +15,7 @@ const RootContainer = styled(Box)`
   width: 100%;
   height: 100vh;
   align-items: center;
-`
+`;
 
 interface AppProps {
   tasks: Task[];
@@ -24,13 +24,13 @@ interface AppProps {
   searchTerm: string;
   isLoading: boolean;
   dispatch: Dispatch;
-};
+}
 
 class App extends React.Component<AppProps> {
 
   componentDidMount(): void {
     const { dispatch } = this.props;
-    dispatch(handleTask({} as Task, HandleTaskType.GetAll))
+    dispatch(handleTask({} as Task, HandleTaskType.GetAll));
   }
 
   sortByDate = () => {
@@ -71,7 +71,7 @@ class App extends React.Component<AppProps> {
           </List>
         </Paper>
       </RootContainer>
-    )
+    );
   }
 }
 

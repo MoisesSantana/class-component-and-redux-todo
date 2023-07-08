@@ -33,7 +33,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   state = INITIAL_STATE;
 
   handleModal = () => {
-   this.setState((prevState: { open: boolean }) => ({ open: !prevState.open }));
+    this.setState((prevState: { open: boolean }) => ({ open: !prevState.open }));
   };
 
   handleSaveTask = () => {
@@ -51,7 +51,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     dispatch(handleTask(newTask, HandleTaskType.Create));
 
     this.setState(INITIAL_STATE);
-  }
+  };
 
   handleEditTask = () => {
     const { tasks, dispatch, taskId, handleShowBtnsControl } = this.props;
@@ -67,12 +67,12 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     if (handleShowBtnsControl) handleShowBtnsControl();
     
     this.setState(INITIAL_STATE);
-  }
+  };
 
   handleChangeInput = ({ target }) => {
     const { id, value } = target;
     this.setState({ [id]: value });
-  }
+  };
 
   render() {
     const { open, taskName, taskDescription } = this.state;
