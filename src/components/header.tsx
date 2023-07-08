@@ -10,6 +10,10 @@ import {
   styled,
 } from '@mui/material';
 import HandleTaskModal from './handle-task-modal';
+import { connect } from 'react-redux';
+import { FilterBy, GlobalStateType, OrderBy } from '../types';
+import { Dispatch } from 'redux';
+import { filterBy, orderBy, searchTask } from '../redux/tasks.actions';
 
 const HeaderContainer = styled('header')`
   display: flex;
@@ -32,8 +36,32 @@ const Controls= styled(Box)`
   }
 `;
 
-export class Header extends React.Component {
+interface HeaderProps {
+  orderBy: OrderBy;
+  filterBy: FilterBy;
+  searchTerm: string;
+  dispatch: Dispatch;
+}
+
+class Header extends React.Component<HeaderProps> {
+
+  handleOrderBy = ({ target }) => {
+    const { dispatch } = this.props;
+    dispatch(orderBy(target.value));
+  }
+
+  handleFilterBy = ({ target }) => {
+    const { dispatch } = this.props;
+    dispatch(filterBy(target.value));
+  };
+
+  handleSearch = ({ target }) => {
+    const { dispatch } = this.props;
+    dispatch(searchTask(target.value));
+  };
+
   render() {
+    const { orderBy, filterBy, searchTerm } = this.props;
     return (
       <HeaderContainer>
         <Typography variant="h1">Todo List</Typography>
@@ -45,11 +73,12 @@ export class Header extends React.Component {
                 labelId="filter"
                 id="demo-simple-select"
                 label="Filter By Status"
-                value="All"
+                value={ filterBy }
+                onChange={ this.handleFilterBy }
               >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Complete">Complete</MenuItem>
-                <MenuItem value="Uncompleted">Uncompleted</MenuItem>
+                <MenuItem value={ FilterBy.All }>All</MenuItem>
+                <MenuItem value={ FilterBy.Completed }>Complete</MenuItem>
+                <MenuItem value={ FilterBy.Unfinished }>Unfinished</MenuItem>
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ width: 300 }}>
@@ -58,17 +87,33 @@ export class Header extends React.Component {
                 labelId="order"
                 id="demo-simple-select"
                 label="Order By Date"
-                value="Current"
+                value={ orderBy }
+                onChange={ this.handleOrderBy }
               >
-                <MenuItem value="Current">Current</MenuItem>
-                <MenuItem value="Old">Old</MenuItem>
+                <MenuItem value={ OrderBy.Current }>Current</MenuItem>
+                <MenuItem value={ OrderBy.Old }>Old</MenuItem>
               </Select>
             </FormControl>
           </div>
           <HandleTaskModal isNewTask />
         </Controls>
-        <TextField id="outlined-basic" label="Search" variant="outlined" sx={{ width: 608 }} />
+        <TextField
+          value={ searchTerm }
+          onChange={ this.handleSearch }
+          id="outlined-basic"
+          label="Search"
+          variant="outlined"
+          sx={{ width: 608 }}
+        />
       </HeaderContainer>
     )
   }
 }
+
+const mapStateToProps = ({ orderBy, filterBy, searchTerm }: GlobalStateType) => ({
+  orderBy,
+  filterBy,
+  searchTerm,
+});
+
+export default connect(mapStateToProps)(Header);
