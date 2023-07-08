@@ -11,7 +11,6 @@ import { format, formatDistanceToNow } from 'date-fns';
 
 const CustomListItem = styled(ListItem)`
   align-items: flex-start;
-  position: relative;
 
   &:hover {
     transform: scale(1.015);
@@ -19,6 +18,11 @@ const CustomListItem = styled(ListItem)`
 
   .btns-control {
     display: flex;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
     gap: 8px;
   }
 `;

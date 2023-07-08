@@ -29,10 +29,35 @@ const Controls= styled(Box)`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 2rem;
 
   .selects-control {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 680px;
+    width: 100%;
+
+    @media (max-width: 770px) {
+    width: 100%;
+  }
+  }
+`;
+
+const SearchField = styled(TextField)`
+  width: 620px;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
+`;
+
+const SelectControl = styled(FormControl)`
+  width: 300px;
+
+  @media (max-width: 770px) {
+    width: 100%;
   }
 `;
 
@@ -64,10 +89,10 @@ class Header extends React.Component<HeaderProps> {
     const { orderBy, filterBy, searchTerm } = this.props;
     return (
       <HeaderContainer>
-        <Typography variant="h1">Todo List</Typography>
+        <Typography variant="h1" fontSize={48}>Todo List</Typography>
         <Controls>
           <div className="selects-control">
-            <FormControl sx={{ mr: 1, width: 300 }}>
+            <SelectControl>
               <InputLabel id="filter">Filter By Status</InputLabel>
               <Select
                 labelId="filter"
@@ -80,8 +105,8 @@ class Header extends React.Component<HeaderProps> {
                 <MenuItem value={ FilterBy.Completed }>Complete</MenuItem>
                 <MenuItem value={ FilterBy.Unfinished }>Unfinished</MenuItem>
               </Select>
-            </FormControl>
-            <FormControl fullWidth sx={{ width: 300 }}>
+            </SelectControl>
+            <SelectControl>
               <InputLabel id="order">Order By Date</InputLabel>
               <Select
                 labelId="order"
@@ -93,17 +118,16 @@ class Header extends React.Component<HeaderProps> {
                 <MenuItem value={ OrderBy.Current }>Current</MenuItem>
                 <MenuItem value={ OrderBy.Old }>Old</MenuItem>
               </Select>
-            </FormControl>
+            </SelectControl>
           </div>
           <HandleTaskModal isNewTask />
         </Controls>
-        <TextField
+        <SearchField
           value={ searchTerm }
           onChange={ this.handleSearch }
           id="outlined-basic"
           label="Search"
           variant="outlined"
-          sx={{ width: 608 }}
         />
       </HeaderContainer>
     );
