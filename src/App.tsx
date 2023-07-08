@@ -2,7 +2,9 @@ import React from 'react';
 import { Box, List, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import { Header } from './components/header';
-import { TaskCard } from './components/task-card';
+import TaskCard from './components/task-card';
+import { Task } from './types';
+import { connect } from 'react-redux';
 
 const RootContainer = styled(Box)`
   display: flex;
@@ -13,29 +15,21 @@ const RootContainer = styled(Box)`
   align-items: center;
 `
 
-class App extends React.Component {
+interface AppProps {
+  tasks: Task[];
+};
+
+class App extends React.Component<AppProps> {
   render() {
+    const { tasks } = this.props;
     return (
       <RootContainer>
         <Header />
         <Paper  sx={{ width: '80%', mt: 12, overflowY: 'auto', overflowX: 'hidden', height: 'calc(100vh - 200px)' }}>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
+            {
+              tasks.map((task: Task) => <TaskCard key={task.id} task={task} />)
+            }
           </List>
         </Paper>
       </RootContainer>
@@ -43,4 +37,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+  tasks,
+});
+
+export default connect(mapStateToProps)(App);

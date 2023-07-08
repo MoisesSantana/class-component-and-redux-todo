@@ -2,7 +2,8 @@ import React from 'react';
 import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { HandleTaskModal } from './handle-task-modal';
+import HandleTaskModal from './handle-task-modal';
+import { Task } from '../types';
 
 
 const CustomListItem = styled(ListItem)`
@@ -25,7 +26,11 @@ const CustomListItem = styled(ListItem)`
   }
 `
 
-export class TaskCard extends React.Component {
+interface TaskCardProps {
+  task: Task;
+};
+
+class TaskCard extends React.Component<TaskCardProps> {
   state = {
     showBtn: false,
   }
@@ -36,7 +41,9 @@ export class TaskCard extends React.Component {
 
   render() {
     const { showBtn } = this.state;
+    const { task } = this.props;
     const listContentBlur = showBtn ? 'blur(3px)' : 'blur(0px)';
+    const statusTextColor = task.status === 'completed' ? 'blue' : 'red';
 
     return (
       <>
@@ -58,16 +65,16 @@ export class TaskCard extends React.Component {
             role="complementary"
             onClick={ this.handleShowBtn }
             sx={{ width: '60%', filter: listContentBlur }}
-            primary="Brunch this weekend?"
+            primary={ task.taskName }
             secondary={
-              <Typography variant="caption" width="80%" sx={{ display: 'inline-block' }}>
-                — I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…I'll be in your neighborhood doing errands this…
+              <Typography color="GrayText" variant="caption" sx={{ display: 'inline-block' }}>
+                { task.taskDescription }
               </Typography>
             }
           />
           <aside role="complementary" onClick={ this.handleShowBtn } style={{ filter: listContentBlur }}>
-            <p>Status: Completed</p>
-            <p>Created At: 05/06/2023</p>
+            <p style={{ color: statusTextColor }}>Status: { task.status }</p>
+            <p>Created At: { task.createdAt }</p>
           </aside>
         </CustomListItem>
         <Divider variant="inset" component="li" />  
@@ -75,3 +82,5 @@ export class TaskCard extends React.Component {
     );
   }
 }
+
+export default TaskCard;
