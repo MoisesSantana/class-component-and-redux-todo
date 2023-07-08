@@ -1,8 +1,8 @@
 import React from 'react';
 import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { HandleTaskModal } from './handle-task-modal';
 
 
 const CustomListItem = styled(ListItem)`
@@ -15,6 +15,8 @@ const CustomListItem = styled(ListItem)`
   }
 
   .btns-control {
+    display: flex;
+    gap: 8px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -38,16 +40,14 @@ export class TaskCard extends React.Component {
 
     return (
       <>
-        <CustomListItem onClick={ this.handleShowBtn }>
+        <CustomListItem>
           {
             showBtn && (
               <div className="btns-control">
-                <Fab color="success" aria-label="complete" sx={{ mr: 1 }}>
+                <Fab color="success" aria-label="complete">
                   <CheckIcon />
                 </Fab>
-                <Fab color="warning" aria-label="edit" sx={{ mr: 1 }}>
-                  <EditIcon />
-                </Fab>
+                <HandleTaskModal />
                 <Fab color="error" aria-label="remove">
                   <DeleteIcon />
                 </Fab>
@@ -55,6 +55,8 @@ export class TaskCard extends React.Component {
             )
           }
           <ListItemText
+            role="complementary"
+            onClick={ this.handleShowBtn }
             sx={{ width: '60%', filter: listContentBlur }}
             primary="Brunch this weekend?"
             secondary={
@@ -63,7 +65,7 @@ export class TaskCard extends React.Component {
               </Typography>
             }
           />
-          <aside style={{ filter: listContentBlur }}>
+          <aside role="complementary" onClick={ this.handleShowBtn } style={{ filter: listContentBlur }}>
             <p>Status: Completed</p>
             <p>Created At: 05/06/2023</p>
           </aside>

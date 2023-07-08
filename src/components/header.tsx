@@ -1,6 +1,6 @@
 import React from 'react';
-import {  Box, Fab, FormControl, InputLabel, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import {  Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
+import { HandleTaskModal } from './handle-task-modal';
 
 const HeaderContainer = styled('header')`
   display: flex;
@@ -56,10 +56,7 @@ export class Header extends React.Component {
               </Select>
             </FormControl>
           </div>
-          <Fab variant="extended" color="primary" aria-label="add">
-            <AddIcon sx={{ mr: 1 }} />
-            New Todo
-          </Fab>
+          <HandleTaskModal isNewTask />
         </Controls>
         <TextField id="outlined-basic" label="Search" variant="outlined" sx={{ width: 608 }} />
       </HeaderContainer>
