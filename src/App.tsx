@@ -5,6 +5,7 @@ import Header from './components/header';
 import TaskCard from './components/task-card';
 import { FilterBy, GlobalStateType, OrderBy, Status, Task } from './types';
 import { connect } from 'react-redux';
+import Loading from './components/loading';
 
 const RootContainer = styled(Box)`
   display: flex;
@@ -20,6 +21,7 @@ interface AppProps {
   orderBy: OrderBy;
   filterBy: FilterBy;
   searchTerm: string;
+  isLoading: boolean;
 };
 
 class App extends React.Component<AppProps> {
@@ -47,6 +49,7 @@ class App extends React.Component<AppProps> {
     const sortedTasks = this.sortByDate();
     const filteredTasks = this.filterByStatus(sortedTasks);
     const searchedTasks = this.filterByTerm(filteredTasks);
+    const { isLoading } = this.props;
 
     return (
       <RootContainer>
@@ -54,7 +57,9 @@ class App extends React.Component<AppProps> {
         <Paper  sx={{ width: '80%', mt: 12, overflowY: 'auto', overflowX: 'hidden', height: 'calc(100vh - 200px)' }}>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {
-              searchedTasks.map((task: Task) => <TaskCard key={task.id} task={task} />)
+              isLoading ? <Loading /> : (
+                searchedTasks.map((task: Task) => <TaskCard key={task.id} task={task} />)
+              )
             }
           </List>
         </Paper>
@@ -63,11 +68,12 @@ class App extends React.Component<AppProps> {
   }
 }
 
-const mapStateToProps = ({ tasks, orderBy, filterBy, searchTerm }: GlobalStateType) => ({
+const mapStateToProps = ({ tasks, orderBy, filterBy, searchTerm, isLoading }: GlobalStateType) => ({
   tasks,
   orderBy,
   filterBy,
   searchTerm,
+  isLoading,
 });
 
 export default connect(mapStateToProps)(App);
