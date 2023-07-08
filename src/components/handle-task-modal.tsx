@@ -18,14 +18,18 @@ interface HandleTaskModalProps {
   isNewTask?: boolean;
   tasks: Task[];
   dispatch: Dispatch;
+  taskId: number;
+  handleShowBtnsControl: () => void;
 }
 
+const INITIAL_STATE = {
+  open: false,
+  taskName: '',
+  taskDescription: '',
+};
+
 class HandleTaskModal extends React.Component<HandleTaskModalProps> {
-  state = {
-    open: false,
-    taskName: '',
-    taskDescription: '',
-  }
+  state = INITIAL_STATE;
 
   handleModal = () => {
    this.setState((prevState: { open: boolean }) => ({ open: !prevState.open }));
@@ -34,7 +38,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   handleSaveTask = () => {
     const { tasks, dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
-    this.handleModal();
+
     dispatch({ type: SAVE_TASK, payload: [...tasks, {
       taskName,
       taskDescription,
@@ -42,10 +46,19 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
       createdAt: formatsDate(new Date()),
       id: tasks.length + 1,
     }] });
+
+    this.setState(INITIAL_STATE);
   }
 
   handleEditTask = () => {
-    this.handleModal();
+    const { tasks, dispatch, taskId, handleShowBtnsControl } = this.props;
+    const { taskName, taskDescription } = this.state;
+
+    const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
+    dispatch({ type: SAVE_TASK, payload: updatedTasks });
+
+    handleShowBtnsControl();
+    this.setState(INITIAL_STATE);
   }
 
   handleChangeInput = ({ target }) => {

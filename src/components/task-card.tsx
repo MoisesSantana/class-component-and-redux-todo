@@ -73,7 +73,7 @@ class TaskCard extends React.Component<TaskCardProps> {
                 <Fab color="success" aria-label="conclude" onClick={this.handleCompleteTask}>
                   <CheckIcon />
                 </Fab>
-                <HandleTaskModal />
+                <HandleTaskModal handleShowBtnsControl={this.handleShowBtn} taskId={ task.id } />
                 <Fab color="error" aria-label="remove" onClick={this.handleDeleteTask}>
                   <DeleteIcon />
                 </Fab>
