@@ -1,6 +1,6 @@
 import React from 'react';
 import {  Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
-import { HandleTaskModal } from './handle-task-modal';
+import HandleTaskModal from './handle-task-modal';
 
 const HeaderContainer = styled('header')`
   display: flex;

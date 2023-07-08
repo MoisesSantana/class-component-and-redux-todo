@@ -8,14 +8,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Task } from '../types';
+import { SAVE_TASK } from '../redux/tasks.actions';
+import { formatsDate } from '../helper/formatsDate';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
+  tasks: Task[];
+  dispatch: Dispatch;
 }
 
-export class HandleTaskModal extends React.Component<HandleTaskModalProps> {
+class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   state = {
     open: false,
+    taskName: '',
+    taskDescription: '',
   }
 
   handleModal = () => {
@@ -23,15 +32,29 @@ export class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   };
 
   handleSaveTask = () => {
+    const { tasks, dispatch } = this.props;
+    const { taskName, taskDescription } = this.state;
     this.handleModal();
+    dispatch({ type: SAVE_TASK, payload: [...tasks, {
+      taskName,
+      taskDescription,
+      status: 'unfinished',
+      createdAt: formatsDate(new Date()),
+      id: tasks.length + 1,
+    }] });
   }
 
   handleEditTask = () => {
     this.handleModal();
   }
 
+  handleChangeInput = ({ target }) => {
+    const { id, value } = target;
+    this.setState({ [id]: value });
+  }
+
   render() {
-    const { open } = this.state;
+    const { open, taskName, taskDescription } = this.state;
     const { isNewTask = false } = this.props;
     return (
       <div>
@@ -54,18 +77,22 @@ export class HandleTaskModal extends React.Component<HandleTaskModalProps> {
             <TextField
               autoFocus
               margin="dense"
-              id="task"
+              id="taskName"
               label="Task"
               fullWidth
               variant="outlined"
+              value={taskName}
+              onChange={this.handleChangeInput}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="description"
+              id="taskDescription"
               label="Description"
               fullWidth
               variant="outlined"
+              value={taskDescription}
+              onChange={this.handleChangeInput}
             />
           </DialogContent>
           <DialogActions>
@@ -77,3 +104,9 @@ export class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     );
   }
 }
+
+const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+  tasks,
+});
+
+export default connect(mapStateToProps)(HandleTaskModal);
