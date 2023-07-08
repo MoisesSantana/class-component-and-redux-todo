@@ -18,8 +18,8 @@ interface HandleTaskModalProps {
   isNewTask?: boolean;
   tasks: Task[];
   dispatch: Dispatch;
-  taskId: number;
-  handleShowBtnsControl: () => void;
+  taskId?: number;
+  handleShowBtnsControl?: () => void;
 }
 
 const INITIAL_STATE = {
@@ -56,8 +56,9 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
 
     const updatedTasks = tasks.map((task: Task) => task.id === taskId ? { ...task, taskName, taskDescription } : task);
     dispatch({ type: SAVE_TASK, payload: updatedTasks });
-
-    handleShowBtnsControl();
+    
+    if (handleShowBtnsControl) handleShowBtnsControl();
+    
     this.setState(INITIAL_STATE);
   }
 
