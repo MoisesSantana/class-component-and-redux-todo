@@ -93,7 +93,7 @@ class TaskCard extends React.Component<TaskCardProps> {
                   <CheckIcon />
                 </Tooltip>
               </IconButton>
-              <HandleTaskModal taskId={ task.id } />
+              <HandleTaskModal task={ task }  />
               <IconButton color="error" onClick={this.handleDeleteTask}>
                 <Tooltip title="Remove Task">
                   <DeleteIcon />

@@ -14,14 +14,13 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
 import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
-import { formatsDate } from '../helper/formatsDate';
 import { handleTask } from '../redux/tasks.actions';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
   tasks: Task[];
   dispatch: Dispatch;
-  taskId?: number;
+  task?: Task;
 }
 
 const INITIAL_STATE = {
@@ -35,7 +34,22 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   state = INITIAL_STATE;
 
   handleModal = () => {
-    this.setState((prevState: { open: boolean }) => ({ open: !prevState.open }));
+    const { task } = this.props;
+
+    if (!task) {
+      this.setState((prevState: typeof INITIAL_STATE) => ({
+        ...prevState,
+        open: !prevState.open,
+      }));
+      return;
+    }
+
+    this.setState((prevState: typeof INITIAL_STATE) => ({
+      ...prevState,
+      open: !prevState.open,
+      taskName: task.taskName,
+      taskDescription: task.taskDescription,
+    }), this.validateInputs);
   };
 
   handleSaveTask = () => {
@@ -56,11 +70,11 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   };
 
   handleEditTask = () => {
-    const { tasks, dispatch, taskId } = this.props;
+    const { tasks, dispatch, task } = this.props;
     const { taskName, taskDescription } = this.state;
+    if (!task) return;
 
-    const taskToEdit = tasks.find((task: Task) => task.id === taskId);
-    
+    const taskToEdit = tasks.find(({ id }: Task) => id === task.id);
     if (taskToEdit) {
       const updatedTask = { ...taskToEdit, taskName, taskDescription };
       dispatch(handleTask(updatedTask, HandleTaskType.Update));
