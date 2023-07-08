@@ -28,6 +28,7 @@ const INITIAL_STATE = {
   open: false,
   taskName: '',
   taskDescription: '',
+  isDisabledBtn: true,
 };
 
 class HandleTaskModal extends React.Component<HandleTaskModalProps> {
@@ -68,13 +69,19 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     this.setState(INITIAL_STATE);
   };
 
+  validateInputs = () => {
+    const { taskName, taskDescription } = this.state;
+    const isDisabledBtn = !taskName || !taskDescription;
+    this.setState({ isDisabledBtn });
+  };
+
   handleChangeInput = ({ target }) => {
     const { id, value } = target;
-    this.setState({ [id]: value });
+    this.setState(() => ({ [id]: value }), this.validateInputs);
   };
 
   render() {
-    const { open, taskName, taskDescription } = this.state;
+    const { open, taskName, taskDescription, isDisabledBtn } = this.state;
     const { isNewTask = false } = this.props;
     return (
       <div>
@@ -119,7 +126,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleModal}>Cancel</Button>
-            <Button onClick={isNewTask ? this.handleSaveTask : this.handleEditTask}>Save</Button>
+            <Button disabled={ isDisabledBtn } onClick={isNewTask ? this.handleSaveTask : this.handleEditTask}>Save</Button>
           </DialogActions>
         </Dialog>
       </div>
