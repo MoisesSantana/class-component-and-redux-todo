@@ -1,5 +1,5 @@
-import { ActionTypes, Dispatch, FilterBy, GlobalStateType, OrderBy, Task, TaskUpdateType } from "../types";
-import { promiseCreatedNewTask, promiseDeletedTask, promiseUpdatedTask } from "../utils/fakeApi";
+import { ActionTypes, Dispatch, FilterBy, OrderBy, Task, HandleTaskType } from "../types";
+import { promiseCreatedNewTask, promiseDeletedTask, promiseGetAllTasks, promiseUpdatedTask } from "../utils/fakeApi";
 
 const updateTask = (tasks: Task[]) => ({
   type: ActionTypes.UPDATE_TASK,
@@ -21,26 +21,28 @@ export const searchTask = (searchTerm: string) => ({
   payload: searchTerm,
 });
 
-const handleFetch = () => ({
+const handleFetch = (payload: boolean) => ({
   type: ActionTypes.HANDLE_FETCH,
+  payload,
 });
 
-export const handleTask = (task: Task, taskUpdateType: TaskUpdateType) => (
-  async (dispatch: Dispatch, getState: () => GlobalStateType) => {
-    dispatch(handleFetch());
-    const { tasks } = getState();
+export const handleTask = (task: Task, handleTaskType: HandleTaskType) => (
+  async (dispatch: Dispatch) => {
+    dispatch(handleFetch(true));
     let data: Task[] = [];
-    switch (taskUpdateType) {
-      case TaskUpdateType.Create:
-        data = await promiseCreatedNewTask(tasks, task);
+    switch (handleTaskType) {
+      case HandleTaskType.Create:
+        data = await promiseCreatedNewTask(task);
         break;
-      case TaskUpdateType.Delete:
-        data = await promiseDeletedTask(tasks, task.id);
+      case HandleTaskType.Delete:
+        data = await promiseDeletedTask(task.id);
         break;
+      case HandleTaskType.GetAll:
+        data = await promiseGetAllTasks();
       default:
-        data = await promiseUpdatedTask(tasks, task);
+        data = await promiseUpdatedTask(task);
     }
     dispatch(updateTask(data));
-    dispatch(handleFetch());
+    dispatch(handleFetch(false));
   }
 );

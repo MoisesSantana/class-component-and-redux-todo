@@ -1,12 +1,13 @@
 import { AnyAction } from 'redux';
 import { ActionTypes, FilterBy, GlobalStateType, OrderBy } from '../types';
+import { getStorage } from '../utils/storage';
 
 const INITIAL_STATE = {
-  tasks: [],
+  tasks: getStorage('taskList'),
   orderBy: OrderBy.Current,
   filterBy: FilterBy.All,
   searchTerm: '',
-  isLoading: false,
+  isLoading: true,
 };
 
 const tasksReducer = (
@@ -36,7 +37,7 @@ const tasksReducer = (
     case ActionTypes.HANDLE_FETCH:
       return {
         ...state,
-        isLoading: !state.isLoading,
+        isLoading: action.payload,
       }
     default:
       return state;

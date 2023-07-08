@@ -11,7 +11,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
-import { Dispatch, GlobalStateType, Status, Task, TaskUpdateType } from '../types';
+import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
 import { formatsDate } from '../helper/formatsDate';
 import { handleTask } from '../redux/tasks.actions';
 
@@ -48,7 +48,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
       id: 0,
     };
 
-    dispatch(handleTask(newTask, TaskUpdateType.Create));
+    dispatch(handleTask(newTask, HandleTaskType.Create));
 
     this.setState(INITIAL_STATE);
   }
@@ -61,7 +61,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     
     if (taskToEdit) {
       const updatedTask = { ...taskToEdit, taskName, taskDescription };
-      dispatch(handleTask(updatedTask, TaskUpdateType.Update));
+      dispatch(handleTask(updatedTask, HandleTaskType.Update));
     }
     
     if (handleShowBtnsControl) handleShowBtnsControl();

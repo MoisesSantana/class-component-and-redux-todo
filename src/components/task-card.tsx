@@ -3,7 +3,7 @@ import { Divider, Fab, ListItem, ListItemText, Typography, styled } from '@mui/m
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
-import { Dispatch, GlobalStateType, Status, Task, TaskUpdateType } from '../types';
+import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
 import { connect } from 'react-redux';
 import { handleTask } from '../redux/tasks.actions';
 
@@ -49,7 +49,7 @@ class TaskCard extends React.Component<TaskCardProps> {
 
     if (taskToEdit) {
       const updatedTask = { ...taskToEdit, status: Status.Completed };
-      dispatch(handleTask(updatedTask, TaskUpdateType.Update));
+      dispatch(handleTask(updatedTask, HandleTaskType.Update));
     }
 
     this.setState({ showBtn: false });
@@ -60,7 +60,7 @@ class TaskCard extends React.Component<TaskCardProps> {
     const taskToRemove = tasks.find((taskItem: Task) => taskItem.id === task.id);
     
     if (taskToRemove)
-      dispatch(handleTask(taskToRemove, TaskUpdateType.Delete));
+      dispatch(handleTask(taskToRemove, HandleTaskType.Delete));
     
     this.setState({ showBtn: false });
   }

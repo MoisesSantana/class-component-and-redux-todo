@@ -3,9 +3,10 @@ import { Box, List, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import Header from './components/header';
 import TaskCard from './components/task-card';
-import { FilterBy, GlobalStateType, OrderBy, Status, Task } from './types';
+import { Dispatch, FilterBy, GlobalStateType, HandleTaskType, OrderBy, Status, Task } from './types';
 import { connect } from 'react-redux';
 import Loading from './components/loading';
+import { handleTask } from './redux/tasks.actions';
 
 const RootContainer = styled(Box)`
   display: flex;
@@ -22,9 +23,15 @@ interface AppProps {
   filterBy: FilterBy;
   searchTerm: string;
   isLoading: boolean;
+  dispatch: Dispatch;
 };
 
 class App extends React.Component<AppProps> {
+
+  componentDidMount(): void {
+    const { dispatch } = this.props;
+    dispatch(handleTask({} as Task, HandleTaskType.GetAll))
+  }
 
   sortByDate = () => {
     const { tasks, orderBy } = this.props;

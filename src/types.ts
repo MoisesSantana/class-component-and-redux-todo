@@ -43,8 +43,9 @@ export enum FilterBy {
   Completed = 'Completed',
 }
 
-export enum TaskUpdateType {
+export enum HandleTaskType {
   Create = 'Create',
   Update = 'Update',
   Delete = 'Delete',
+  GetAll = 'GetAll',
 }
