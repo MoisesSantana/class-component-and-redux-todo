@@ -35,8 +35,8 @@ class App extends React.Component<AppProps> {
 
   sortByDate = () => {
     const { tasks, orderBy } = this.props;
-    if (orderBy === OrderBy.Current) return tasks.sort((a, b) => a.id - b.id);
-    return tasks.sort((a, b) => b.id - a.id);
+    if (orderBy === OrderBy.Current) return tasks.sort((a, b) => b.id - a.id);
+    return tasks.sort((a, b) => a.id - b.id);
   };
 
   filterByStatus = (sortedTasks: Task[]) => {
