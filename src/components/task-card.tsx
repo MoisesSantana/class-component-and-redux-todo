@@ -4,6 +4,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from './handle-task-modal';
 import { Task } from '../types';
+import { Dispatch } from 'redux';
+import { DELETE_TASK, UPDATE_TASK } from '../redux/tasks.actions';
+import { connect } from 'react-redux';
 
 
 const CustomListItem = styled(ListItem)`
@@ -28,6 +31,8 @@ const CustomListItem = styled(ListItem)`
 
 interface TaskCardProps {
   task: Task;
+  tasks: Task[];
+  dispatch: Dispatch;
 };
 
 class TaskCard extends React.Component<TaskCardProps> {
@@ -39,11 +44,25 @@ class TaskCard extends React.Component<TaskCardProps> {
     this.setState((prevState: { showBtn: boolean }) => ({ showBtn: !prevState.showBtn }))
   }
 
+  handleCompleteTask = () => {
+    const { task, tasks, dispatch } = this.props;
+    const updatedTasks = tasks.map((taskItem: Task) => taskItem.id === task.id ? { ...taskItem, status: 'completed' } : taskItem);
+    dispatch({ type: UPDATE_TASK, payload: updatedTasks });
+    this.setState({ showBtn: false });
+  }
+
+  handleDeleteTask = () => {
+    const { task, tasks, dispatch } = this.props;
+    const updatedTasks = tasks.filter((taskItem: Task) => taskItem.id !== task.id);
+    dispatch({ type: DELETE_TASK, payload: updatedTasks });
+    this.setState({ showBtn: false });
+  }
+
   render() {
     const { showBtn } = this.state;
     const { task } = this.props;
     const listContentBlur = showBtn ? 'blur(3px)' : 'blur(0px)';
-    const statusTextColor = task.status === 'completed' ? 'blue' : 'red';
+    const statusTextColor = task.status === 'completed' ? 'green' : 'red';
 
     return (
       <>
@@ -51,11 +70,11 @@ class TaskCard extends React.Component<TaskCardProps> {
           {
             showBtn && (
               <div className="btns-control">
-                <Fab color="success" aria-label="complete">
+                <Fab color="success" aria-label="conclude" onClick={this.handleCompleteTask}>
                   <CheckIcon />
                 </Fab>
                 <HandleTaskModal />
-                <Fab color="error" aria-label="remove">
+                <Fab color="error" aria-label="remove" onClick={this.handleDeleteTask}>
                   <DeleteIcon />
                 </Fab>
               </div>
@@ -83,4 +102,8 @@ class TaskCard extends React.Component<TaskCardProps> {
   }
 }
 
-export default TaskCard;
+const mapStateToProps = ({ tasks }: { tasks: Task[] }) => ({
+  tasks,
+});
+
+export default connect(mapStateToProps)(TaskCard);
