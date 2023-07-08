@@ -2,9 +2,10 @@ import { AnyAction } from 'redux';
 import { SAVE_TASK } from './tasks.actions';
 import { DELETE_TASK } from './tasks.actions';
 import { UPDATE_TASK } from './tasks.actions';
+import { Task } from '../types';
 
 type TasksReducerState = {
-  tasks: string[],
+  tasks: Task[],
 }
 
 const INITIAL_STATE = {
