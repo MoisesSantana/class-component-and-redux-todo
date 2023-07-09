@@ -13,8 +13,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
-import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
-import { handleTask } from '../redux/tasks.actions';
+import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../../types';
+import { handleTask } from '../../redux/tasks.actions';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
@@ -113,7 +113,6 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
             </IconButton>
           )
         }
-        
         <Dialog open={open} onClose={this.handleModal}>
           <DialogTitle>{ isNewTask ? 'Define your task' : 'Edit your task' }</DialogTitle>
           <DialogContent>
@@ -148,8 +147,6 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
   }
 }
 
-const mapStateToProps = ({ tasks }: GlobalStateType) => ({
-  tasks,
-});
+const mapStateToProps = ({ tasks }: GlobalStateType) => ({ tasks });
 
 export default connect(mapStateToProps)(HandleTaskModal);

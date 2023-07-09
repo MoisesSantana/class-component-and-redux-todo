@@ -1,31 +1,13 @@
 import React from 'react';
-import { Divider, IconButton, ListItem, ListItemText, Tooltip, Typography, styled } from '@mui/material';
+import { Divider, IconButton, ListItemText, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HandleTaskModal from './handle-task-modal';
-import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../types';
+import HandleTaskModal from '../handle-task-modal';
+import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../../types';
 import { connect } from 'react-redux';
-import { handleTask } from '../redux/tasks.actions';
+import { handleTask } from '../../redux/tasks.actions';
 import { format, formatDistanceToNow } from 'date-fns';
-
-
-const CustomListItem = styled(ListItem)`
-  align-items: flex-start;
-
-  &:hover {
-    transform: scale(1.015);
-  }
-
-  .btns-control {
-    display: flex;
-    gap: 8px;
-  }
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-`;
+import { CustomListItem } from './styles';
 
 interface TaskCardProps {
   task: Task;
@@ -36,7 +18,6 @@ interface TaskCardProps {
 class TaskCard extends React.Component<TaskCardProps> {
   createdDateFormatted = () => {
     const { task } = this.props;
-    console.log(task.createdAt, typeof task.createdAt);
     return format(
       task.createdAt,
       'LLLL d \'in\' HH:mm\'h\'',
@@ -48,9 +29,14 @@ class TaskCard extends React.Component<TaskCardProps> {
     return formatDistanceToNow(task.createdAt);
   };
 
+  foundTaskById = () => {
+    const { task, tasks } = this.props;
+    return tasks.find(({ id }: Task) => id === task.id);
+  };
+
   handleCompleteTask = () => {
-    const { task, tasks, dispatch } = this.props;
-    const taskToEdit = tasks.find((taskItem: Task) => taskItem.id === task.id);
+    const { dispatch } = this.props;
+    const taskToEdit = this.foundTaskById();
 
     if (taskToEdit) {
       const updatedTask = { ...taskToEdit, status: Status.Completed };
@@ -61,8 +47,8 @@ class TaskCard extends React.Component<TaskCardProps> {
   };
 
   handleDeleteTask = () => {
-    const { task, tasks, dispatch } = this.props;
-    const taskToRemove = tasks.find((taskItem: Task) => taskItem.id === task.id);
+    const { dispatch } = this.props;
+    const taskToRemove = this.foundTaskById();
     
     if (taskToRemove)
       dispatch(handleTask(taskToRemove, HandleTaskType.Delete));
@@ -72,7 +58,7 @@ class TaskCard extends React.Component<TaskCardProps> {
 
   render() {
     const { task } = this.props;
-    const statusTextColor = task.status === 'completed' ? 'green' : 'red';
+    const statusTextColor = task.status === Status.Completed ? '#2e7d32' : '#d32f2f';
 
     return (
       <>
@@ -86,11 +72,11 @@ class TaskCard extends React.Component<TaskCardProps> {
               </Typography>
             }
           />
-          <aside style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <aside>
             <time title={ this.createdDateFormatted() } dateTime={ task.createdAt.toLocaleString() }>
               <Typography color="GrayText" variant='caption'>{ this.createdDateRelativeToNow() }</Typography>
             </time>
-            <span style={{ color: statusTextColor }}>Status: { task.status }</span>
+            <Typography variant='caption' fontWeight={900} color={ statusTextColor }>Status: { task.status }</Typography>
             <div className="btns-control">
               <IconButton color="success" onClick={this.handleCompleteTask}>
                 <Tooltip title="Conclude Task">
@@ -112,8 +98,6 @@ class TaskCard extends React.Component<TaskCardProps> {
   }
 }
 
-const mapStateToProps = ({ tasks }: GlobalStateType) => ({
-  tasks,
-});
+const mapStateToProps = ({ tasks }: GlobalStateType) => ({ tasks });
 
 export default connect(mapStateToProps)(TaskCard);

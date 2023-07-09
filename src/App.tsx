@@ -1,33 +1,18 @@
 import React from 'react';
-import { Box, List, Paper } from '@mui/material';
-import { styled } from '@mui/system';
+import { List } from '@mui/material';
 import Header from './components/header';
-import TaskCard from './components/task-card';
 import { Dispatch, FilterBy, GlobalStateType, HandleTaskType, OrderBy, Status, Task } from './types';
 import { connect } from 'react-redux';
 import Loading from './components/loading';
 import { handleTask } from './redux/tasks.actions';
+import { MainContainer, RootContainer } from './App.styles';
+import TaskCard from './components/task-card';
 
-const RootContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  background-color: #FAFAFA;
-  width: 100%;
-  height: 100vh;
-  align-items: center;
-`;
-
-interface AppProps {
-  tasks: Task[];
-  orderBy: OrderBy;
-  filterBy: FilterBy;
-  searchTerm: string;
-  isLoading: boolean;
+interface AppProps extends GlobalStateType {
   dispatch: Dispatch;
 }
 
 class App extends React.Component<AppProps> {
-
   componentDidMount(): void {
     const { dispatch } = this.props;
     dispatch(handleTask({} as Task, HandleTaskType.GetAll));
@@ -35,8 +20,8 @@ class App extends React.Component<AppProps> {
 
   sortByDate = () => {
     const { tasks, orderBy } = this.props;
-    if (orderBy === OrderBy.Current) return tasks.sort((a, b) => b.id - a.id);
-    return tasks.sort((a, b) => a.id - b.id);
+    if (orderBy === OrderBy.Current) return tasks.sort((current, next) => next.id - current.id);
+    return tasks.sort((current, next) => current.id - next.id);
   };
 
   filterByStatus = (sortedTasks: Task[]) => {
@@ -61,7 +46,7 @@ class App extends React.Component<AppProps> {
     return (
       <RootContainer>
         <Header />
-        <Paper  sx={{ width: '80%', mt: 12, overflowY: 'auto', overflowX: 'hidden', height: 'calc(100vh - 200px)' }}>
+        <MainContainer>
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {
               isLoading ? <Loading /> : (
@@ -69,18 +54,12 @@ class App extends React.Component<AppProps> {
               )
             }
           </List>
-        </Paper>
+        </MainContainer>
       </RootContainer>
     );
   }
 }
 
-const mapStateToProps = ({ tasks, orderBy, filterBy, searchTerm, isLoading }: GlobalStateType) => ({
-  tasks,
-  orderBy,
-  filterBy,
-  searchTerm,
-  isLoading,
-});
+const mapStateToProps = (state: GlobalStateType) => ({ ...state });
 
 export default connect(mapStateToProps)(App);

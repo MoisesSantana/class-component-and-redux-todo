@@ -1,88 +1,29 @@
 import React from 'react';
 import {
-  Box,
-  FormControl,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Typography,
-  styled,
 } from '@mui/material';
-import HandleTaskModal from './handle-task-modal';
+import HandleTaskModal from '../handle-task-modal';
 import { connect } from 'react-redux';
-import { FilterBy, GlobalStateType, OrderBy } from '../types';
+import { FilterBy, GlobalStateType, HandleFiltersType, OrderBy } from '../../types';
 import { Dispatch } from 'redux';
-import { filterBy, orderBy, searchTask } from '../redux/tasks.actions';
+import {
+  filterBy as actionFilterBy,
+  orderBy as actionOrderBy,
+  searchTask as actionSearchTask,
+} from '../../redux/tasks.actions';
+import { Controls, HeaderContainer, SearchField, SelectControl } from './styles';
 
-const HeaderContainer = styled('header')`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 2rem;
-  width: 80%;
-  padding-top: 2rem;
-`;
-
-const Controls= styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 2rem;
-
-  .selects-control {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    max-width: 680px;
-    width: 100%;
-
-    @media (max-width: 770px) {
-    width: 100%;
-  }
-  }
-`;
-
-const SearchField = styled(TextField)`
-  width: 620px;
-
-  @media (max-width: 770px) {
-    width: 100%;
-  }
-`;
-
-const SelectControl = styled(FormControl)`
-  width: 300px;
-
-  @media (max-width: 770px) {
-    width: 100%;
-  }
-`;
-
-interface HeaderProps {
-  orderBy: OrderBy;
-  filterBy: FilterBy;
-  searchTerm: string;
+interface HeaderProps extends GlobalStateType {
   dispatch: Dispatch;
 }
 
 class Header extends React.Component<HeaderProps> {
-
-  handleOrderBy = ({ target }) => {
+  handleInputs = ({ target }, action: HandleFiltersType) => {
     const { dispatch } = this.props;
-    dispatch(orderBy(target.value));
-  };
-
-  handleFilterBy = ({ target }) => {
-    const { dispatch } = this.props;
-    dispatch(filterBy(target.value));
-  };
-
-  handleSearch = ({ target }) => {
-    const { dispatch } = this.props;
-    dispatch(searchTask(target.value));
+    dispatch(action(target.value));
   };
 
   render() {
@@ -99,7 +40,7 @@ class Header extends React.Component<HeaderProps> {
                 id="demo-simple-select"
                 label="Filter By Status"
                 value={ filterBy }
-                onChange={ this.handleFilterBy }
+                onChange={ (e) => this.handleInputs(e, actionFilterBy as HandleFiltersType) }
               >
                 <MenuItem value={ FilterBy.All }>All</MenuItem>
                 <MenuItem value={ FilterBy.Completed }>Complete</MenuItem>
@@ -113,7 +54,7 @@ class Header extends React.Component<HeaderProps> {
                 id="demo-simple-select"
                 label="Order By Date"
                 value={ orderBy }
-                onChange={ this.handleOrderBy }
+                onChange={ (e) => this.handleInputs(e, actionOrderBy as HandleFiltersType) }
               >
                 <MenuItem value={ OrderBy.Current }>Current</MenuItem>
                 <MenuItem value={ OrderBy.Old }>Old</MenuItem>
@@ -124,7 +65,7 @@ class Header extends React.Component<HeaderProps> {
         </Controls>
         <SearchField
           value={ searchTerm }
-          onChange={ this.handleSearch }
+          onChange={ (e) => this.handleInputs(e, actionSearchTask as HandleFiltersType) }
           id="outlined-basic"
           label="Search"
           variant="outlined"
@@ -134,10 +75,6 @@ class Header extends React.Component<HeaderProps> {
   }
 }
 
-const mapStateToProps = ({ orderBy, filterBy, searchTerm }: GlobalStateType) => ({
-  orderBy,
-  filterBy,
-  searchTerm,
-});
+const mapStateToProps = (state : GlobalStateType) => ({ ...state });
 
 export default connect(mapStateToProps)(Header);

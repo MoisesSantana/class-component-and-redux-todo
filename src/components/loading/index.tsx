@@ -1,12 +1,13 @@
 import React from 'react';
 import { CircularProgress } from '@mui/material';
+import { LoadingContainer } from './styles';
 
 class Loading extends React.Component {
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px' }}>
+      <LoadingContainer>
         <CircularProgress />
-      </div>
+      </LoadingContainer>
     );
   }
 }

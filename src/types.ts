@@ -19,6 +19,11 @@ export type GlobalStateType = {
 
 export type Dispatch = ThunkDispatch<GlobalStateType, null, AnyAction>;
 
+export type HandleFiltersType = (arg: string | FilterBy | OrderBy) => {
+  type: ActionTypes.ORDER_BY | ActionTypes.FILTER_BY | ActionTypes.SEARCH_TASK;
+  payload: string | FilterBy | OrderBy;
+};
+
 export enum Status {
   Unfinished = 'unfinished',
   Completed = 'completed',

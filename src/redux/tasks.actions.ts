@@ -30,6 +30,7 @@ export const handleTask = (task: Task, handleTaskType: HandleTaskType) => (
   async (dispatch: Dispatch) => {
     dispatch(handleFetch(true));
     let data: Task[] = [];
+
     switch (handleTaskType) {
     case HandleTaskType.Create:
       data = await promiseCreatedNewTask(task);
@@ -43,6 +44,7 @@ export const handleTask = (task: Task, handleTaskType: HandleTaskType) => (
     default:
       data = await promiseUpdatedTask(task);
     }
+
     dispatch(updateTask(data));
     dispatch(handleFetch(false));
   }
