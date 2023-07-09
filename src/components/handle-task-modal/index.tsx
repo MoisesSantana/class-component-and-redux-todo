@@ -9,6 +9,7 @@ import {
   Fab,
   IconButton,
   Tooltip,
+  Box,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -98,7 +99,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { open, taskName, taskDescription, isDisabledBtn } = this.state;
     const { isNewTask = false } = this.props;
     return (
-      <div>
+      <Box>
         {
           isNewTask ? (
             <Fab variant="extended" color="primary" aria-label="add" onClick={this.handleModal}>
@@ -142,7 +143,7 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
             <Button disabled={ isDisabledBtn } onClick={isNewTask ? this.handleSaveTask : this.handleEditTask}>Save</Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </Box>
     );
   }
 }

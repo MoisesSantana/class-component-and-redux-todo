@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, IconButton, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, IconButton, ListItemText, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from '../handle-task-modal';
@@ -77,7 +77,7 @@ class TaskCard extends React.Component<TaskCardProps> {
               <Typography color="GrayText" variant='caption'>{ this.createdDateRelativeToNow() }</Typography>
             </time>
             <Typography variant='caption' fontWeight={900} color={ statusTextColor }>Status: { task.status }</Typography>
-            <div className="btns-control">
+            <Box className="btns-control">
               <IconButton color="success" onClick={this.handleCompleteTask}>
                 <Tooltip title="Conclude Task">
                   <CheckIcon />
@@ -89,7 +89,7 @@ class TaskCard extends React.Component<TaskCardProps> {
                   <DeleteIcon />
                 </Tooltip>
               </IconButton>
-            </div>
+            </Box>
           </aside>
         </CustomListItem>
         <Divider variant="inset" component="li" />

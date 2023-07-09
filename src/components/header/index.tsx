@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   InputLabel,
   MenuItem,
   Select,
@@ -32,7 +33,7 @@ class Header extends React.Component<HeaderProps> {
       <HeaderContainer>
         <Typography variant="h1" fontSize={48}>Todo List</Typography>
         <Controls>
-          <div className="selects-control">
+          <Box className="selects-control">
             <SelectControl>
               <InputLabel id="filter">Filter By Status</InputLabel>
               <Select
@@ -60,7 +61,7 @@ class Header extends React.Component<HeaderProps> {
                 <MenuItem value={ OrderBy.Old }>Old</MenuItem>
               </Select>
             </SelectControl>
-          </div>
+          </Box>
           <HandleTaskModal isNewTask />
         </Controls>
         <SearchField

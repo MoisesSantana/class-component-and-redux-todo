@@ -1,6 +1,6 @@
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
-export const LoadingContainer = styled('div')`
+export const LoadingContainer = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
