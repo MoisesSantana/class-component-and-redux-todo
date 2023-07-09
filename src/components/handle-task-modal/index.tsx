@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import {
   Button,
   TextField,
@@ -52,7 +52,8 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     }), this.validateInputs);
   };
 
-  handleSaveTask = () => {
+  handleSaveTask = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const { dispatch } = this.props;
     const { taskName, taskDescription } = this.state;
 
@@ -69,7 +70,8 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     this.setState(INITIAL_STATE);
   };
 
-  handleEditTask = () => {
+  handleEditTask = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const { tasks, dispatch, task } = this.props;
     const { taskName, taskDescription } = this.state;
     if (!task) return;
@@ -115,32 +117,34 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
         }
         <Dialog open={open} onClose={this.handleModal}>
           <DialogTitle>{ isNewTask ? 'Define your task' : 'Edit your task' }</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="taskName"
-              label="Task"
-              fullWidth
-              variant="outlined"
-              value={taskName}
-              onChange={this.handleChangeInput}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="taskDescription"
-              label="Description"
-              fullWidth
-              variant="outlined"
-              value={taskDescription}
-              onChange={this.handleChangeInput}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleModal}>Cancel</Button>
-            <Button disabled={ isDisabledBtn } onClick={isNewTask ? this.handleSaveTask : this.handleEditTask}>Save</Button>
-          </DialogActions>
+          <form onSubmit={isNewTask ? this.handleSaveTask : this.handleEditTask}>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="taskName"
+                label="Task"
+                fullWidth
+                variant="outlined"
+                value={taskName}
+                onChange={this.handleChangeInput}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="taskDescription"
+                label="Description"
+                fullWidth
+                variant="outlined"
+                value={taskDescription}
+                onChange={this.handleChangeInput}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleModal}>Cancel</Button>
+              <Button disabled={ isDisabledBtn } type='submit'>Save</Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </Box>
     );
