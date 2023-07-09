@@ -68,10 +68,8 @@ Esta aplicação é um todo list em React, utilizando componentes de classe com 
 # Requisitos do desafio
 
 ## Legenda:
-  >**Concluído ✔️:**
-  <br/>
-  >**Bonus ⭐:**
-  <br/>
+  >**Concluído ✔️:**<br/>
+  >**Bonus ⭐:**<br/>
   >**Não concluído ❌:**
 
 ## Instruções:
