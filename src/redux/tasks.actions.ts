@@ -21,14 +21,14 @@ export const searchTask = (searchTerm: string) => ({
   payload: searchTerm,
 });
 
-const handleFetch = (payload: boolean) => ({
+const fetchData = (payload: boolean) => ({
   type: ActionTypes.HANDLE_FETCH,
   payload,
 });
 
 export const handleTask = (task: Task, handleTaskType: HandleTaskType) => (
   async (dispatch: Dispatch) => {
-    dispatch(handleFetch(true));
+    dispatch(fetchData(true));
     let data: Task[] = [];
 
     switch (handleTaskType) {
@@ -46,6 +46,6 @@ export const handleTask = (task: Task, handleTaskType: HandleTaskType) => (
     }
 
     dispatch(updateTask(data));
-    dispatch(handleFetch(false));
+    dispatch(fetchData(false));
   }
 );

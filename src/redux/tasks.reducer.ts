@@ -18,6 +18,7 @@ const tasksReducer = (
     return {
       ...state,
       tasks: action.payload,
+      isLoading: false,
     };
   case ActionTypes.ORDER_BY:
     return {
@@ -37,7 +38,7 @@ const tasksReducer = (
   case ActionTypes.HANDLE_FETCH:
     return {
       ...state,
-      isLoading: action.payload,
+      isLoading: true,
     };
   default:
     return state;
