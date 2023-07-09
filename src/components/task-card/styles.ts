@@ -3,10 +3,6 @@ import { ListItem, styled } from '@mui/material';
 export const CustomListItem = styled(ListItem)`
   align-items: flex-start;
 
-  &:hover {
-    transform: scale(1.015);
-  }
-
   aside {
     display: flex;
     flex-direction: column;

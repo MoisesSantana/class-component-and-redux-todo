@@ -58,7 +58,7 @@ class TaskCard extends React.Component<TaskCardProps> {
 
   render() {
     const { task } = this.props;
-    const statusTextColor = task.status === Status.Completed ? '#2e7d32' : '#d32f2f';
+    const isCompletedTask = task.status === Status.Completed;
 
     return (
       <>
@@ -76,7 +76,7 @@ class TaskCard extends React.Component<TaskCardProps> {
             <time title={ this.createdDateFormatted() } dateTime={ task.createdAt.toLocaleString() }>
               <Typography color="GrayText" variant='caption'>{ this.createdDateRelativeToNow() }</Typography>
             </time>
-            <Typography variant='caption' fontWeight={900} color={ statusTextColor }>Status: { task.status }</Typography>
+            <Typography variant='caption' fontWeight={900} color={ isCompletedTask ? 'success.main' : 'error' }>Status: { task.status }</Typography>
             <Box className="btns-control">
               <IconButton color="success" onClick={this.handleCompleteTask}>
                 <Tooltip title="Conclude Task">
