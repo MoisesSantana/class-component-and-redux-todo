@@ -38,11 +38,10 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     const { task } = this.props;
 
     if (!task) {
-      this.setState((prevState: typeof INITIAL_STATE) => ({
+      return this.setState((prevState: typeof INITIAL_STATE) => ({
         ...prevState,
         open: !prevState.open,
       }));
-      return;
     }
 
     this.setState((prevState: typeof INITIAL_STATE) => ({
