@@ -47,11 +47,10 @@ class App extends React.Component<AppProps> {
       <RootContainer>
         <Header />
         <MainContainer>
-          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', position: 'relative' }}>
+            {isLoading && <Loading />}
             {
-              isLoading ? <Loading /> : (
-                searchedTasks.map((task: Task) => <TaskCard key={task.id} task={task} />)
-              )
+              searchedTasks.map((task: Task) => <TaskCard key={task.id} task={task} />)
             }
           </List>
         </MainContainer>

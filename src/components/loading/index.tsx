@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import { LoadingContainer } from './styles';
 
 class Loading extends React.Component {
@@ -7,6 +7,9 @@ class Loading extends React.Component {
     return (
       <LoadingContainer>
         <CircularProgress />
+        <Typography variant="h6" component="h6">
+          Loading...
+        </Typography>
       </LoadingContainer>
     );
   }
