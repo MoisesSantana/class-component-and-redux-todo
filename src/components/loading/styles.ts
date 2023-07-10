@@ -1,9 +1,10 @@
 import { Box, styled } from '@mui/material';
 
 export const LoadingContainer = styled(Box)`
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  width: 80vw;
+  height: calc(100vh - 200px);
+  min-height: 300px;
   background-color: rgba(255 255 255 / 0.7);
   display: flex;
   gap: 1rem;
