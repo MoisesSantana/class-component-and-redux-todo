@@ -16,6 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { connect } from 'react-redux';
 import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../../types';
 import { handleTask } from '../../redux/tasks.actions';
+import { AddTaskBtn } from './styles';
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
@@ -103,10 +104,10 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
       <Box>
         {
           isNewTask ? (
-            <Fab variant="extended" color="primary" aria-label="add" onClick={this.handleModal}>
+            <AddTaskBtn variant="extended" color="primary" aria-label="add" onClick={this.handleModal}>
               <AddIcon sx={{ mr: 1 }} />
                 New Todo
-            </Fab>
+            </AddTaskBtn>
           ) : (
             <IconButton color="warning" onClick={this.handleModal}>
               <Tooltip title="Edit Task">

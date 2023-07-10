@@ -10,24 +10,12 @@ export const HeaderContainer = styled('header')`
 `;
 
 export const Controls= styled(Box)`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-width: 100%;
-flex-wrap: wrap;
-gap: 2rem;
-
-.selects-control {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   max-width: 680px;
   width: 100%;
-
-  @media (max-width: 770px) {
-    width: 100%;
-  }
-}
 `;
 
 export const SearchField = styled(TextField)`
@@ -44,4 +32,13 @@ export const SelectControl = styled(FormControl)`
   @media (max-width: 770px) {
     width: 100%;
   }
+`;
+
+export const SubControls = styled(Box)`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  justify-content: space-between;
 `;
