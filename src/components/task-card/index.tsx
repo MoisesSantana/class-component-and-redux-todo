@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Divider, IconButton, ListItemText, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
 import HandleTaskModal from '../handle-task-modal';
 import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../../types';
 import { connect } from 'react-redux';
 import { handleTask } from '../../redux/tasks.actions';
 import { format, formatDistanceToNow } from 'date-fns';
 import { CustomListItem } from './styles';
+import { foundTaskById } from '../../helpers/foundTask';
 
 interface TaskCardProps {
   task: Task;
@@ -29,31 +29,15 @@ class TaskCard extends React.Component<TaskCardProps> {
     return formatDistanceToNow(task.createdAt);
   };
 
-  foundTaskById = () => {
-    const { task, tasks } = this.props;
-    return tasks.find(({ id }: Task) => id === task.id);
-  };
-
   handleCompleteTask = () => {
-    const { dispatch } = this.props;
-    const taskToEdit = this.foundTaskById();
-
+    const { dispatch, task, tasks } = this.props;
+    if (!task) return;
+    
+    const taskToEdit = foundTaskById(task, tasks);
     if (taskToEdit) {
       const updatedTask = { ...taskToEdit, status: Status.Completed };
       dispatch(handleTask(updatedTask, HandleTaskType.Update));
     }
-
-    this.setState({ showBtn: false });
-  };
-
-  handleDeleteTask = () => {
-    const { dispatch } = this.props;
-    const taskToRemove = this.foundTaskById();
-    
-    if (taskToRemove)
-      dispatch(handleTask(taskToRemove, HandleTaskType.Delete));
-    
-    this.setState({ showBtn: false });
   };
 
   render() {
@@ -84,11 +68,7 @@ class TaskCard extends React.Component<TaskCardProps> {
                 </Tooltip>
               </IconButton>
               <HandleTaskModal task={ task }  />
-              <IconButton color="error" onClick={this.handleDeleteTask}>
-                <Tooltip title="Remove Task">
-                  <DeleteIcon />
-                </Tooltip>
-              </IconButton>
+              <HandleTaskModal task={ task } isDeleteTask  />
             </Box>
           </aside>
         </CustomListItem>

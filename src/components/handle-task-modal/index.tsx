@@ -6,7 +6,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Fab,
   IconButton,
   Tooltip,
   Box,
@@ -17,9 +16,13 @@ import { connect } from 'react-redux';
 import { Dispatch, GlobalStateType, Status, Task, HandleTaskType } from '../../types';
 import { handleTask } from '../../redux/tasks.actions';
 import { AddTaskBtn } from './styles';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {foundTaskById} from '../../helpers/foundTask';
+
 
 interface HandleTaskModalProps {
   isNewTask?: boolean;
+  isDeleteTask?: boolean;
   tasks: Task[];
   dispatch: Dispatch;
   task?: Task;
@@ -97,55 +100,87 @@ class HandleTaskModal extends React.Component<HandleTaskModalProps> {
     this.setState(() => ({ [id]: value }), this.validateInputs);
   };
 
+  handleDeleteTask = () => {
+    const { dispatch, task, tasks } = this.props;
+    if (!task) return;
+    
+    const taskToRemove = foundTaskById(task, tasks);
+    if (taskToRemove)
+      dispatch(handleTask(taskToRemove, HandleTaskType.Delete));
+  };
+
   render() {
     const { open, taskName, taskDescription, isDisabledBtn } = this.state;
-    const { isNewTask = false } = this.props;
+    const { isNewTask = false, isDeleteTask = false } = this.props;
+    const isEditTask = !isNewTask && !isDeleteTask;
     return (
       <Box>
-        {
-          isNewTask ? (
-            <AddTaskBtn variant="extended" color="primary" aria-label="add" onClick={this.handleModal}>
-              <AddIcon sx={{ mr: 1 }} />
+        { isNewTask && (
+          <AddTaskBtn variant="extended" color="primary" aria-label="add" onClick={this.handleModal}>
+            <AddIcon sx={{ mr: 1 }} />
                 New Todo
-            </AddTaskBtn>
-          ) : (
-            <IconButton color="warning" onClick={this.handleModal}>
-              <Tooltip title="Edit Task">
-                <EditIcon />
-              </Tooltip>
-            </IconButton>
-          )
-        }
+          </AddTaskBtn>
+        )}
+        { isEditTask && (
+          <IconButton color="warning" onClick={this.handleModal}>
+            <Tooltip title="Edit Task">
+              <EditIcon />
+            </Tooltip>
+          </IconButton>
+        )}
+        { isDeleteTask && (
+          <IconButton color="error" onClick={this.handleModal}>
+            <Tooltip title="Remove Task">
+              <DeleteIcon />
+            </Tooltip>
+          </IconButton>
+        )}
         <Dialog open={open} onClose={this.handleModal}>
-          <DialogTitle>{ isNewTask ? 'Define your task' : 'Edit your task' }</DialogTitle>
-          <form onSubmit={isNewTask ? this.handleSaveTask : this.handleEditTask}>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="taskName"
-                label="Task"
-                fullWidth
-                variant="outlined"
-                value={taskName}
-                onChange={this.handleChangeInput}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="taskDescription"
-                label="Description"
-                fullWidth
-                variant="outlined"
-                value={taskDescription}
-                onChange={this.handleChangeInput}
-              />
-            </DialogContent>
+          <DialogTitle>
+            { isNewTask && 'Define your task' }
+            { isEditTask && 'Edit your task' }
+            { isDeleteTask && 'Are you sure you want to remove this task?' }
+          </DialogTitle>
+          { isDeleteTask || (
+            <form onSubmit={isNewTask ? this.handleSaveTask : this.handleEditTask}>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="taskName"
+                  label="Task"
+                  fullWidth
+                  variant="outlined"
+                  value={taskName}
+                  onChange={this.handleChangeInput}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="taskDescription"
+                  label="Description"
+                  fullWidth
+                  variant="outlined"
+                  value={taskDescription}
+                  onChange={this.handleChangeInput}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleModal}>Cancel</Button>
+                <Button disabled={ isDisabledBtn } type='submit'>Save</Button>
+              </DialogActions>
+            </form>
+          )}
+          { isDeleteTask && (
             <DialogActions>
-              <Button onClick={this.handleModal}>Cancel</Button>
-              <Button disabled={ isDisabledBtn } type='submit'>Save</Button>
+              <Button color='primary' onClick={this.handleModal}>
+                cancel
+              </Button>
+              <Button color='error' disabled={ isDisabledBtn } onClick={this.handleDeleteTask}>
+                confirm
+              </Button>
             </DialogActions>
-          </form>
+          )}
         </Dialog>
       </Box>
     );
