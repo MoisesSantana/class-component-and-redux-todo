@@ -38,6 +38,13 @@ Esta aplicação é um todo list em React, utilizando componentes de classe com 
 </details>
 
 <details>
+  <summary><strong>Redux DevTools</strong></summary><br />
+  
+  >O <a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=pt-BR" target="_blank">Redux DevTools</a> é uma poderosa extensão para navegadores que oferece recursos de depuração para aplicativos que utilizam a biblioteca Redux. Com o Redux DevTools, é possível visualizar o estado da aplicação em diferentes momentos, acompanhar as mudanças no estado, reproduzir ações passadas e até mesmo gravar e reproduzir sessões de depuração. Além disso, a extensão oferece uma interface amigável e intuitiva, permitindo que os desenvolvedores identifiquem e solucionem problemas de forma mais eficiente. O Redux DevTools é uma ferramenta essencial para o desenvolvimento e depuração de aplicativos Redux, proporcionando insights valiosos e agilizando o processo de identificação e correção de erros.
+
+</details>
+
+<details>
   <summary><strong>Material-UI</strong></summary><br />
   
   ><a href="https://mui.com/material-ui/" target="_blank">Material-UI</a> é uma biblioteca de componentes de interface de usuário para React, baseada no design do Material Design, criado pelo Google. Ela oferece uma ampla gama de componentes estilizados e pré-construídos, como botões, formulários, barras de navegação e muito mais, que podem ser facilmente integrados em um projeto React. O Material-UI permite que os desenvolvedores criem interfaces bonitas e consistentes, seguindo as diretrizes de design do Material Design. Além disso, a biblioteca fornece recursos avançados, como temas personalizáveis, estilos responsivos e suporte a acessibilidade. Com o Material-UI, os desenvolvedores podem acelerar o desenvolvimento de aplicativos com uma aparência profissional e moderna.
@@ -96,14 +103,17 @@ Crie uma aplicação ReactJS para um sistema de gerenciamento de tarefas. Você 
 ### Bonus:
   >**Bonus ⭐:** Foi utilizado TypeScript para desenvolver a aplicação.<br/>
   >**Bonus ⭐:** Foi feito a persistência dos dados utilizando o localStorage.<br/>
-  >**Bonus ⭐:** É possível pesquisar pela tarefa salva na lista<br/>
+  >**Bonus ⭐:** É possível pesquisar pela tarefa salva na lista.<br/>
+  >**Bonus ⭐:** Responsividade.<br/>
+  >**Bonus ⭐:** Os filtros são desabilitados enquanto não tiver tarefas.<br/>
+  >**Bonus ⭐:** Foi adicionado um modal de confirmação para excluir uma tarefa.<br/>
   >**Bonus ⭐:** Foi adicionado um campo para identificar a quanto tempo a tarefa foi criada.<br/><br/>
 
 # Aplicação
 
 ## Acesso ao deploy
 
-<a href="https://class-redux-todo.netlify.app/" target="_blank">Aqui</a> você consegue acessar a aplicação sem a necessidade da instalação.
+<a href="https://classcomponent-redux-todo.netlify.app/" target="_blank">Aqui</a> você consegue acessar a aplicação sem a necessidade da instalação.
 
 ## Guia de instalação
 
