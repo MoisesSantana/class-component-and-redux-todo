@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   InputLabel,
   MenuItem,
   Select,
@@ -28,7 +27,8 @@ class Header extends React.Component<HeaderProps> {
   };
 
   render() {
-    const { orderBy, filterBy, searchTerm } = this.props;
+    const { orderBy, filterBy, searchTerm, tasks } = this.props;
+    const disableFilter = tasks.length === 0;
     return (
       <HeaderContainer>
         <Typography variant="h1" fontSize={48}>Todo List</Typography>
@@ -37,6 +37,7 @@ class Header extends React.Component<HeaderProps> {
             <InputLabel id="filter">Filter By Status</InputLabel>
             <Select
               labelId="filter"
+              disabled={ disableFilter }
               id="demo-simple-select"
               label="Filter By Status"
               value={ filterBy }
@@ -54,6 +55,7 @@ class Header extends React.Component<HeaderProps> {
               id="demo-simple-select"
               label="Order By Date"
               value={ orderBy }
+              disabled={ disableFilter }
               onChange={ (e) => this.handleInputs(e, actionOrderBy as HandleFiltersType) }
             >
               <MenuItem value={ OrderBy.Current }>Current</MenuItem>
@@ -68,6 +70,7 @@ class Header extends React.Component<HeaderProps> {
             id="outlined-basic"
             label="Search"
             variant="outlined"
+            disabled={ disableFilter }
           />
           <HandleTaskModal isNewTask />
         </SubControls>
